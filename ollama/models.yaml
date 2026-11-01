@@ -1,0 +1,7 @@
+# swegemma --models-yaml registry: route the competition alias to a local Ollama server.
+# Local studies only. Kaggle scoring always serves gemma-4-31b-it-qat-w4a16-ct through vLLM.
+# gemma4:31b-cloud is not the competition's QAT W4A16 build; record this in every run's metadata.
+models:
+  gemma-4-31b-it-qat-w4a16-ct:
+    path: ollama_chat/gemma4:31b-cloud
+    api_base: http://localhost:11434
