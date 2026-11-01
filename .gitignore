@@ -1,0 +1,9 @@
+# Local Python environment
+.venv/
+__pycache__/
+
+# Pre-cleanup workspace, kept on disk but outside version control
+archive/
+
+# Repository snapshots (21 GB) are verified by snapshots.sha256 instead of stored in Git
+snapshots/
