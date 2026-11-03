@@ -7,3 +7,9 @@ archive/
 
 # Repository snapshots (21 GB) are verified by snapshots.sha256 instead of stored in Git
 snapshots/
+
+# Local harness run outputs (patches, traces, logs)
+runs/
+
+# Generated adapter weights (local/make_test_adapter.py writes them)
+local/lora_agent/adapters/

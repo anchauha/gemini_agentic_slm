@@ -1,0 +1,21 @@
+# Organizer sandbox plus pure-Python test dependencies missing from the public wheels/ cache.
+# Without them the reference patch fails at import time (local/verify_gold.py, 2026-11-02):
+#   typing_inspection (pydantic 2.13 dependency), dirty_equals, attr, inline_snapshot (+ asttokens,
+#   executing), python_multipart. Packages that a task's repository itself provides are deliberately
+#   not added, so the workspace copy is never shadowed. --no-deps keeps the task's own streamed
+#   wheels (typing_extensions, rich, pytest) in charge.
+# inline_snapshot's pytest11 entry point is removed: auto-loaded in every pytest run, it imports
+# rich from site-packages before the workspace copy and broke 7 rich tasks' reference patches.
+# Build after the organizer image, from the repository root:
+#   docker build -t swebench-sandbox:latest -f docker/Dockerfile.sandbox docker
+#   docker build -t swebench-sandbox:local -f local/Dockerfile.sandbox-extras local
+FROM swebench-sandbox:latest
+RUN pip install --no-cache-dir --no-deps \
+    typing-inspection==0.4.4 dirty-equals==0.11 attrs==26.1.0 \
+    inline-snapshot==0.36.1 asttokens==3.0.2 executing==2.3.0 python-multipart==0.0.33 \
+ && python - <<'EOF'
+import importlib.metadata as md, pathlib, re
+ep = pathlib.Path(md.distribution("inline-snapshot")._path) / "entry_points.txt"
+ep.write_text(re.sub(r"\[pytest11\][^\[]*", "", ep.read_text()))
+assert not [e for e in md.entry_points(group="pytest11") if e.value.startswith("inline_snapshot")]
+EOF

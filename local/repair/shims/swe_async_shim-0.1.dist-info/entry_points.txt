@@ -1,0 +1,2 @@
+[pytest11]
+swe_async_shim = swe_async_shim

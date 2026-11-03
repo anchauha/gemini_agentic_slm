@@ -1,0 +1,22 @@
+# Minimal single agent for raw-model studies: no adapters, no sub-agents, no engineered prompt.
+# The harness still sends its own task prompt (problem, budget, environment rules, workspace layout).
+name: raw_agent
+model: gemma-4-31b-it-qat-w4a16-ct
+instruction: Resolve the issue in /workspace using the tools, then call submit_patch.
+tools:
+  - run_command
+  - read_file
+  - edit_file
+  - write_file
+  - get_status
+  - submit_patch
+  - get_code_neighbors
+  - search_similar_code
+  - get_code_subgraph
+generate_content_config:
+  temperature: 0.2
+  top_p: 0.95
+  max_output_tokens: 16384
+  thinking_config:
+    thinking_budget: 4096
+    include_thoughts: true
