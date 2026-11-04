@@ -10,6 +10,7 @@ snapshots/
 
 # Local harness run outputs (patches, traces, logs)
 runs/
+logs/
 
 # Generated adapter weights (local/make_test_adapter.py writes them)
 local/lora_agent/adapters/
